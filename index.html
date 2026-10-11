@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MitruBhasha | Learn Together</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f5f7f2;color:#20352b}
+header{background:#164e3b;color:white;padding:25px 18px;text-align:center}
+header h1{margin:0;font-size:32px}
+header p{margin-bottom:0}
+main{max-width:700px;margin:22px auto;padding:0 15px}
+.card{background:white;padding:20px;border-radius:16px;margin-bottom:18px;box-shadow:0 3px 12px #0000000d}
+input,button{font-size:16px;padding:12px;border-radius:9px}
+input{width:100%;border:1px solid #ccd6cf;margin:8px 0}
+button{border:0;background:#176849;color:white;cursor:pointer;margin:4px}
+.phrase{padding:12px 0;border-bottom:1px solid #e5ebe6}
+.kn{font-size:20px;font-weight:bold}
+small{color:#607568}
+footer{text-align:center;padding:22px;color:#607568}
+</style>
+</head>
+<body>
+<header>
+<h1>🌿 MitruBhasha</h1>
+<p>Learn languages. Build friendships.</p>
+<p>ಕನ್ನಡ ಕಲಿಯೋಣ • Learn Kannada & English</p>
+</header>
+<main>
+<section class="card">
+<h2>Welcome, ಸ್ನೇಹಿತರೆ!</h2>
+<p>Learn useful Kannada and English phrases every day.</p>
+<input id="search" placeholder="Search a word or phrase..." oninput="showPhrases()">
+</section>
+<section class="card">
+<h2>📚 Everyday phrases</h2>
+<div id="phrases"></div>
+</section>
+<section class="card">
+<h2>🗣️ Practice speaking</h2>
+<p id="practice">ನಮಸ್ಕಾರ — Hello</p>
+<button onclick="speak('ನಮಸ್ಕಾರ','kn-IN')">Hear Kannada 🔊</button>
+<button onclick="speak('Hello','en-IN')">Hear English 🔊</button>
+</section>
+<section class="card">
+<h2>🧠 Quick quiz</h2>
+<p>What does “ಧನ್ಯವಾದಗಳು” mean?</p>
+<button onclick="answer(false)">Welcome</button>
+<button onclick="answer(true)">Thank you</button>
+<p id="result"></p>
+</section>
+<section class="card">
+<h2>💼 Office English</h2>
+<p><b>Could you please help me?</b></p>
+<p>ದಯವಿಟ್ಟು ನನಗೆ ಸಹಾಯ ಮಾಡಬಹುದೇ?</p>
+<p><b>I will complete the work today.</b></p>
+<p>ನಾನು ಇಂದು ಕೆಲಸವನ್ನು ಪೂರ್ಣಗೊಳಿಸುತ್ತೇನೆ.</p>
+</section>
+</main>
+<footer>Made with ❤️ by Suminuj · MitruBhasha</footer>
+<script>
+const data=[
+["Hello","ನಮಸ್ಕಾರ","Namaskara"],
+["Thank you","ಧನ್ಯವಾದಗಳು","Dhanyavaadagalu"],
+["How are you?","ನೀವು ಹೇಗಿದ್ದೀರಿ?","Neevu hegiddiri?"],
+["I am fine","ನಾನು ಚೆನ್ನಾಗಿದ್ದೇನೆ","Naanu chennagiddene"],
+["What is your name?","ನಿಮ್ಮ ಹೆಸರೇನು?","Nimma hesarenu?"],
+["My name is...","ನನ್ನ ಹೆಸರು...","Nanna hesaru..."],
+["Please","ದಯವಿಟ್ಟು","Dayavittu"],
+["Sorry","ಕ್ಷಮಿಸಿ","Kshamisi"],
+["Good morning","ಶುಭೋದಯ","Shubhodaya"],
+["See you tomorrow","ನಾಳೆ ಭೇಟಿಯಾಗೋಣ","Naale bhetiyaagona"],
+["I need help","ನನಗೆ ಸಹಾಯ ಬೇಕು","Nanage sahaaya beku"],
+["How much?","ಎಷ್ಟು?","Eshtu?"]
+];
+function showPhrases(){
+let q=document.getElementById("search").value.toLowerCase();
+document.getElementById("phrases").innerHTML=data.filter(x=>x.join(" ").toLowerCase().includes(q)).map(x=>`<div class="phrase"><b>${x[0]}</b><br><span class="kn">${x[1]}</span><br><small>${x[2]}</small><br><button onclick="speak('${x[0].replace(/'/g,"\\'")}','en-IN')">English 🔊</button><button onclick="speak('${x[1]}','kn-IN')">Kannada 🔊</button></div>`).join("")||"No phrases found.";
+}
+function speak(text,lang){
+if(!("speechSynthesis" in window)){alert("Speech is not supported in this browser.");return}
+let msg=new SpeechSynthesisUtterance(text);msg.lang=lang;speechSynthesis.speak(msg);
+}
+function answer(ok){
+document.getElementById("result").textContent=ok?"Correct! 🎉":"Not quite. Try again!";
+}
+showPhrases();
+</script>
+</body>
+</html>
